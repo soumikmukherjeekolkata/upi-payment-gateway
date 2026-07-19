@@ -75,7 +75,7 @@ function QRCodeDisplay({ upiUri }) {
 }
 
 function App() {
-  const [form, setForm] = useState({ pa: 'soumik.mukherjee@paytm', pn: 'Soumik Mukherjee', am: '99.50', tn: 'React Demo Payment' });
+  const [form, setForm] = useState({ pa: 'soumikmukherjee4402@oksbi', pn: 'Soumik Mukherjee', am: '99.50', tn: 'React Demo Payment' });
   const [upiUri, setUpiUri] = useState(null);
   const [action, setAction] = useState('pay');
   const [platform] = useState(() => detectPlatform());
