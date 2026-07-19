@@ -1,0 +1,76 @@
+{
+  "name": "upi-intents",
+  "version": "0.2.0",
+  "description": "A framework-agnostic JS/TS library for generating UPI app-specific deep links with robust fallbacks for Android and iOS",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "npm run build:types && npm run build:js",
+    "build:types": "tsc -p tsconfig.build.json",
+    "build:js": "esbuild src/index.ts --bundle --outfile=dist/index.js --format=esm --platform=browser",
+    "dev": "npx concurrently \"esbuild src/index.ts --bundle --outfile=dist/index.js --format=esm --platform=browser --watch\" \"npx http-server -p 8080\"",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "typecheck": "tsc --noEmit",
+    "www": "npx http-server -p 8080",
+    "example:vanilla": "npx http-server -p 8081",
+    "example:react": "node -e \"const fs = require('fs'); fs.copyFileSync('dist/index.js', 'examples/react/src/upi-intents.js')\" && cd examples/react && npm install && npm start"
+  },
+  "keywords": [
+    "UPI",
+    "payments",
+    "fintech",
+    "google-pay",
+    "phonepe",
+    "paytm",
+    "bhim",
+    "intent-urls",
+    "deep-links",
+    "android",
+    "ios",
+    "npci"
+  ],
+  "author": "Soumik Mukherjee",
+  "license": "GPL-3.0-only",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.43.0",
+    "@typescript-eslint/parser": "^8.43.0",
+    "@vitest/coverage-v8": "^1.0.0",
+    "@vitest/ui": "^1.0.0",
+    "concurrently": "^10.0.3",
+    "esbuild": "^0.28.1",
+    "eslint": "^8.0.0",
+    "jsdom": "^23.0.0",
+    "playwright": "^1.40.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "dependencies": {
+    "qr-creator": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soumik-mukherjee/upi-intent.git"
+  },
+  "bugs": {
+    "url": "https://github.com/soumik-mukherjee/upi-intent/issues"
+  },
+  "homepage": "https://github.com/soumik-mukherjee/upi-intent"
+}

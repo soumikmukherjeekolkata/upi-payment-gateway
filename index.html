@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soumik's UPI App — Universal UPI Deep-Link Playground</title>
+  <!-- Google Fonts for premium typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ============================================================
+       PREMIUM DARK THEME & DESIGN SYSTEM
+       ============================================================ */
+    :root {
+      --bg: #09090b;
+      --surface: #18181b;
+      --surface-card: #202024;
+      --border: #27272a;
+      --border-hover: #3f3f46;
+      
+      --text: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --text-dim: #71717a;
+      
+      --primary: #8b5cf6;
+      --primary-hover: #7c3aed;
+      --primary-glow: rgba(139, 92, 246, 0.15);
+      
+      --success: #10b981;
+      --success-glow: rgba(16, 185, 129, 0.15);
+      
+      --info: #3b82f6;
+      --danger: #ef4444;
+      
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-display: 'Outfit', sans-serif;
+      --font-mono: 'Fira Code', 'Berkeley Mono', monospace;
+      
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.6;
+    }
+
+    /* ---- SCROLLBAR ---- */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: var(--radius-sm);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--border-hover);
+    }
+
+    /* ---- LAYOUT CONTAINERS ---- */
+    .container {
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ---- HEADER & NAVBAR ---- */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(9, 9, 11, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .navbar {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--text);
+    }
+
+    .nav-brand .logo-icon {
+      background: linear-gradient(135deg, var(--primary), var(--info));
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
+    }
+
+    .nav-platform-pill {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-platform-pill .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+    }
+
+    /* ---- MAIN HERO ---- */
+    .hero-section {
+      padding: 48px 0 32px;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      background: linear-gradient(to right, #ffffff, #d8b4fe, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      max-width: 680px;
+      margin: 0 auto 24px;
+      font-size: 16px;
+      color: var(--text-muted);
+    }
+
+    .npm-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--primary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .npm-badge:hover {
+      border-color: var(--primary);
+      background: rgba(139, 92, 246, 0.05);
+    }
+
+    .npm-badge svg {
+      color: var(--text-dim);
+    }
+
+    /* ---- PLAYGROUND GRID ---- */
+    .playground-grid {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 32px;
+      margin-bottom: 64px;
+      align-items: start;
+    }
+
+    .sidebar-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: sticky;
+      top: 96px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+      transition: border-color 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: var(--border-hover);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ---- FORM CONTROLS ---- */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .input-control {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .input-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-glow);
+    }
+
+    .input-control::placeholder {
+      color: var(--text-dim);
+    }
+
+    .button-group-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: var(--bg);
+      padding: 4px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      margin-bottom: 18px;
+    }
+
+    .toggle-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: calc(var(--radius-sm) - 2px);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .toggle-btn.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* ---- QR CODE BOX ---- */
+    .qr-container-card {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .qr-box {
+      background: #fff;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      display: inline-block;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      min-height: 200px;
+      min-width: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qr-box svg, .qr-box img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .uri-copy-box {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      word-break: break-all;
+      text-align: left;
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-action:hover {
+      background: var(--primary-hover);
+    }
+
+    /* ---- DIRECTORY LIST PANEL ---- */
+    .directory-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Search & Filter Header */
+    .filter-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .search-wrapper {
+      position: relative;
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 16px 12px 42px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: var(--surface-card);
+      box-shadow: 0 0 0 2px var(--primary-glow);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+
+    .tabs-wrapper {
+      display: flex;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 4px;
+      border-radius: var(--radius-md);
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: var(--bg);
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Apps Grid Section */
+    .apps-section-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .apps-section-title span {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .app-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      position: relative;
+      transition: all 0.2s ease;
+      overflow: hidden;
+    }
+
+    .app-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .app-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      object-fit: contain;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .app-details {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .app-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .app-badges {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .badge-status {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-status.verified {
+      background: var(--success-glow);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .badge-status.community {
+      background: var(--border);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-pay {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-pay:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    /* ---- FAQ SECTION ---- */
+    .faq-section {
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .faq-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .faq-grid {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    details {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    details[open] {
+      border-color: var(--primary);
+    }
+
+    summary {
+      padding: 16px 20px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      user-select: none;
+      outline: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "+";
+      font-size: 18px;
+      color: var(--text-muted);
+      transition: transform 0.2s ease;
+    }
+
+    details[open] summary::after {
+      content: "\u2212";
+    }
+
+    .details-content {
+      padding: 0 20px 20px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      margin-top: auto;
+      background: #0d0d11;
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+    }
+
+    .footer-text {
+      color: var(--text-dim);
+      font-size: 14px;
+    }
+
+    .footer-text strong {
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       RESPONSIVE DESIGN CONTROLS
+       ============================================================ */
+    @media (max-width: 1024px) {
+      .playground-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      
+      .sidebar-panel {
+        position: static;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 32px;
+      }
+      .filter-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .tabs-wrapper {
+        overflow-x: auto;
+        justify-content: flex-start;
+      }
+      .apps-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 26px;
+      }
+      .container {
+        padding: 0 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ======== NAVBAR ======== -->
+  <header>
+    <div class="container navbar">
+      <a href="#" class="nav-brand">
+        <div class="logo-icon">S</div>
+        <span>Soumik's UPI App</span>
+      </a>
+      <div class="nav-platform-pill" id="platformPill">
+        <span class="dot"></span>
+        <span id="platformText">Detecting Platform...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======== HERO ======== -->
+  <main class="container" style="flex: 1;">
+    <div class="hero-section">
+      <h1 class="hero-title">Universal UPI Deep-Link Playground</h1>
+      <p class="hero-subtitle">Framework-agnostic TypeScript engine. Generates secure, store-compliant deep-links (Android Intent &amp; iOS schemes) for all 38 Indian UPI payment applications.</p>
+      <div class="npm-badge" onclick="navigator.clipboard.writeText('npm install upi-intents'); alert('Command copied to clipboard!')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-terminal"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+        <span>npm install upi-intents</span>
+      </div>
+    </div>
+
+    <!-- ======== PLAYGROUND ======== -->
+    <div class="playground-grid">
+      
+      <!-- SIDEBAR FORM & QR -->
+      <div class="sidebar-panel">
+        
+        <!-- CUSTOMIZATION CARD -->
+        <div class="card">
+          <div class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            <span>Transaction Customizer</span>
+          </div>
+
+          <div class="button-group-toggle">
+            <button class="toggle-btn active" id="btnActionPay" onclick="toggleAction('pay')">Payment Link</button>
+            <button class="toggle-btn" id="btnActionMandate" onclick="toggleAction('mandate')">Mandate Link</button>
+          </div>
+
+          <div class="form-group">
+            <label for="paInput">Payee UPI VPA</label>
+            <input type="text" id="paInput" class="input-control" value="soumik.mukherjee@paytm" placeholder="merchant@upi">
+          </div>
+
+          <div class="form-group">
+            <label for="pnInput">Payee Name</label>
+            <input type="text" id="pnInput" class="input-control" value="Soumik Mukherjee" placeholder="Payee Name">
+          </div>
+
+          <div class="form-group">
+            <label for="amInput">Amount (INR)</label>
+            <input type="number" id="amInput" class="input-control" value="100.00" placeholder="Optional Amount">
+          </div>
+
+          <div class="form-group">
+            <label for="tnInput">Transaction Note / Message</label>
+            <input type="text" id="tnInput" class="input-control" value="Live Sandbox Test" placeholder="Message">
+          </div>
+
+          <div class="form-group">
+            <label for="trInput">Transaction Ref ID (Optional)</label>
+            <input type="text" id="trInput" class="input-control" value="" placeholder="Automatic ID">
+          </div>
+        </div>
+
+        <!-- QR DISPLAY CARD -->
+        <div class="card qr-container-card">
+          <div class="card-title" style="align-self: flex-start;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--success);"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <span>Scan QR to Pay</span>
+          </div>
+          
+          <div class="qr-box" id="qrContainer"></div>
+          
+          <div class="uri-copy-box" id="uriStringBox">upi://pay?...</div>
+          
+          <button class="btn-action" onclick="copyUriToClipboard()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+            <span>Copy Core UPI URI</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- MAIN APP DIRECTORY PANEL -->
+      <div class="directory-panel">
+        
+        <!-- SEARCH & CATEGORY FILTER -->
+        <div class="filter-header">
+          <div class="search-wrapper">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search 38 UPI payment applications..." oninput="handleSearch()">
+          </div>
+
+          <div class="tabs-wrapper">
+            <button class="tab-btn active" id="tab-all" onclick="filterCategory('all')">All</button>
+            <button class="tab-btn" id="tab-thirdparty" onclick="filterCategory('thirdparty')">Third-Party</button>
+            <button class="tab-btn" id="tab-banking" onclick="filterCategory('banking')">Banking</button>
+            <button class="tab-btn" id="tab-others" onclick="filterCategory('others')">Shopping</button>
+          </div>
+        </div>
+
+        <!-- APP LIST DIRECTORY -->
+        <div>
+          <!-- Third-Party Segment -->
+          <div class="app-segment" id="seg-thirdparty">
+            <h3 class="apps-section-title">
+              <span>Third-Party Apps</span>
+              <span id="count-thirdparty">22</span>
+            </h3>
+            <div class="apps-grid" id="grid-thirdparty"></div>
+          </div>
+
+          <!-- Banking Segment -->
+          <div class="app-segment" id="seg-banking">
+            <h3 class="apps-section-title">
+              <span>Banking Apps</span>
+              <span id="count-banking">14</span>
+            </h3>
+            <div class="apps-grid" id="grid-banking"></div>
+          </div>
+
+          <!-- E-Commerce Segment -->
+          <div class="app-segment" id="seg-others">
+            <h3 class="apps-section-title">
+              <span>Shopping &amp; Retail</span>
+              <span id="count-others">2</span>
+            </h3>
+            <div class="apps-grid" id="grid-others"></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ======== FAQ SECTION ======== -->
+    <section class="faq-section">
+      <h2 class="faq-title">Frequently Asked Questions</h2>
+      <div class="faq-grid">
+        
+        <details>
+          <summary>What platforms are supported by upi-intents?</summary>
+          <div class="details-content">
+            The engine fully supports Android Chrome Intent URL routing (relying on target package matching) and iOS deep link URL schemes. Dynamic user-agent sniffing detects the client platform and switches link strategies instantly.
+          </div>
+        </details>
+
+        <details>
+          <summary>How does the QR Code Desktop Fallback work?</summary>
+          <div class="details-content">
+            On desktop machines, clicking the payment buttons won't launch native apps. The playground generates a standard NPCI compliant QR Code representing the payment URI. Users can point any camera app or scanner from their UPI payment app to complete transactions safely.
+          </div>
+        </details>
+
+        <details>
+          <summary>Is this compliant with official NPCI regulations?</summary>
+          <div class="details-content">
+            Yes. The library generates links matching the official National Payments Corporation of India (NPCI) UPI Linking Specifications v1.6. It performs parameter schema validations for VPA formats, amounts, notes, transaction identifiers, and transaction modes.
+          </div>
+        </details>
+
+        <details>
+          <summary>Can I download and integrate this library in my projects?</summary>
+          <div class="details-content">
+            Absolutely! It is fully free for educational, personal, and developmental projects. Install it from npm registry using <code>npm install upi-intents</code> and check the modular source code in the <code>/examples</code> directory of the project.
+          </div>
+        </details>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ======== FOOTER ======== -->
+  <footer>
+    <div class="container footer-text">
+      <p>&copy; 2026 <strong>Soumik Mukherjee</strong>. Powered by the <code>upi-intents</code> Library.</p>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       APPLICATION CODE INTEGRATION
+       ============================================================ -->
+  <script type="module">
+    import {
+      getAllApps,
+      buildAppLink,
+      createPaymentUri,
+      createMandateUri,
+      detectPlatform,
+      generateQRCode,
+      generateQRCanvas
+    } from './dist/index.js';
+
+    // State Variables
+    let activeAction = 'pay';
+    let activeCategory = 'all';
+    let searchQuery = '';
+    let currentUri = '';
+    const platform = detectPlatform();
+
+    // Favicon domain mapping
+    const APP_DOMAINS = {
+      gpay: 'pay.google.com',
+      phonepe: 'phonepe.com',
+      paytm: 'paytm.com',
+      amazonpay: 'amazon.in',
+      cred: 'cred.club',
+      whatsapp: 'whatsapp.com',
+      mobikwik: 'mobikwik.com',
+      bhim: 'bhimupi.org.in',
+      tataneu: 'tataneu.com',
+      navi: 'navi.com',
+      supermoney: 'super.money',
+      freecharge: 'freecharge.in',
+      slice: 'sliceit.com',
+      postpe: 'bharatpe.com',
+      fi: 'fi.money',
+      jupiter: 'jupiter.money',
+      fampay: 'fampay.in',
+      kiwi: 'gokiwi.in',
+      omnicard: 'omnicard.in',
+      onecard: 'getonecard.app',
+      simplypay: 'hsbc.co.in',
+      shriramone: 'shriramone.in',
+      icici: 'icicibank.com',
+      sbi: 'onlinesbi.sbi',
+      axis: 'axisbank.com',
+      hdfc: 'hdfcbank.com',
+      kotak: 'kotak.com',
+      idfcfirst: 'idfcfirstbank.com',
+      indusind: 'indusind.com',
+      bob: 'bankofbaroda.in',
+      rbl: 'rblbank.com',
+      dbs: 'dbs.com',
+      canara: 'canarabank.com',
+      pnb: 'pnbindia.in',
+      jiopay: 'jiopaymentsbank.com',
+      airtel: 'airtel.in',
+      flipkart: 'flipkart.com',
+      generic: 'npci.org.in'
+    };
+
+    // Category mappings
+    const CATEGORIES = {
+      thirdparty: [
+        'gpay', 'phonepe', 'paytm', 'amazonpay', 'cred', 'whatsapp',
+        'mobikwik', 'bhim', 'tataneu', 'navi', 'supermoney', 'freecharge',
+        'slice', 'postpe', 'fi', 'jupiter', 'fampay', 'kiwi',
+        'omnicard', 'onecard', 'simplypay', 'shriramone'
+      ],
+      banking: [
+        'icici', 'sbi', 'axis', 'hdfc', 'kotak', 'idfcfirst',
+        'indusind', 'bob', 'rbl', 'dbs', 'canara', 'pnb',
+        'jiopay', 'airtel'
+      ],
+      others: ['flipkart', 'generic']
+    };
+
+    // Setup input elements
+    const paInput = document.getElementById('paInput');
+    const pnInput = document.getElementById('pnInput');
+    const amInput = document.getElementById('amInput');
+    const tnInput = document.getElementById('tnInput');
+    const trInput = document.getElementById('trInput');
+
+    // Attach listeners
+    [paInput, pnInput, amInput, tnInput, trInput].forEach(el => {
+      el.addEventListener('input', updatePlayground);
+    });
+
+    // Initialize UI
+    window.addEventListener('DOMContentLoaded', () => {
+      // Set platform info
+      const platformText = document.getElementById('platformText');
+      platformText.textContent = platform.toUpperCase();
+      
+      updatePlayground();
+    });
+
+    // Toggle Pay/Mandate mode
+    window.toggleAction = function(action) {
+      activeAction = action;
+      
+      document.getElementById('btnActionPay').classList.toggle('active', action === 'pay');
+      document.getElementById('btnActionMandate').classList.toggle('active', action === 'mandate');
+      
+      updatePlayground();
+    };
+
+    // Filter categories
+    window.filterCategory = function(cat) {
+      activeCategory = cat;
+      
+      ['all', 'thirdparty', 'banking', 'others'].forEach(c => {
+        document.getElementById(`tab-${c}`).classList.toggle('active', c === cat);
+      });
+
+      updatePlayground();
+    };
+
+    // Search bar functionality
+    window.handleSearch = function() {
+      searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
+      updatePlayground();
+    };
+
+    // Primary engine calculation loop
+    function updatePlayground() {
+      const pa = paInput.value.trim();
+      const pn = pnInput.value.trim();
+      const am = amInput.value.trim();
+      const tn = tnInput.value.trim();
+      const tr = trInput.value.trim() || 'TR-' + Date.now();
+
+      if (!pa || !pn) {
+        document.getElementById('qrContainer').innerHTML = '<div style="color:var(--text-dim);font-size:12px;">Enter VPA and Payee Name</div>';
+        document.getElementById('uriStringBox').textContent = 'upi://pay?...';
+        currentUri = '';
+        return;
+      }
+
+      try {
+        if (activeAction === 'pay') {
+          currentUri = createPaymentUri(pa, pn, am, tn, tr);
+        } else {
+          currentUri = createMandateUri(pa, pn, am, tn, tr);
+        }
+      } catch (e) {
+        document.getElementById('qrContainer').innerHTML = `<div style="color:var(--danger);font-size:12px;padding:8px;">${e.message}</div>`;
+        return;
+      }
+
+      // Display the URI
+      document.getElementById('uriStringBox').textContent = currentUri;
+
+      // Update QR Code
+      try {
+        const qr = generateQRCode(currentUri, { size: 200 });
+        if (qr.svg && qr.svg.length > 0) {
+          document.getElementById('qrContainer').innerHTML = qr.svg;
+        } else {
+          const canvas = generateQRCanvas(currentUri, { size: 200 });
+          if (canvas) {
+            document.getElementById('qrContainer').innerHTML = '';
+            const img = document.createElement('img');
+            img.src = canvas.toDataURL('image/png');
+            img.width = 200;
+            img.height = 200;
+            img.alt = 'UPI QR Code';
+            document.getElementById('qrContainer').appendChild(img);
+          }
+        }
+      } catch (err) {
+        document.getElementById('qrContainer').innerHTML = '<div style="color:var(--text-dim);">QR Code generation failed</div>';
+      }
+
+      // Render App Grids
+      renderAppGrid('thirdparty', CATEGORIES.thirdparty);
+      renderAppGrid('banking', CATEGORIES.banking);
+      renderAppGrid('others', CATEGORIES.others);
+    }
+
+    function renderAppGrid(categoryId, appIds) {
+      const segmentEl = document.getElementById(`seg-${categoryId}`);
+      const gridEl = document.getElementById(`grid-${categoryId}`);
+      const countEl = document.getElementById(`count-${categoryId}`);
+      
+      const allApps = getAllApps();
+      let matchedCount = 0;
+      let gridHtml = '';
+
+      // Check category tab filter
+      const categoryVisible = (activeCategory === 'all' || activeCategory === categoryId);
+
+      appIds.forEach(id => {
+        const app = allApps.find(a => a.id === id);
+        if (!app) return;
+
+        // Apply search query filter
+        const matchesSearch = app.label.toLowerCase().includes(searchQuery);
+        if (!matchesSearch) return;
+
+        matchedCount++;
+
+        if (!categoryVisible) return;
+
+        const isVerified = app.verification.status === 'verified';
+        const badgeClass = isVerified ? 'verified' : 'community';
+        const badgeText = isVerified ? 'Verified' : 'Community';
+        const domain = APP_DOMAINS[app.id] || '';
+        const faviconUrl = domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=128` : '';
+
+        let linkUrl = '';
+        try {
+          const link = buildAppLink({ appId: app.id, upiUri: currentUri, platform });
+          linkUrl = link.url;
+        } catch (e) {
+          linkUrl = currentUri;
+        }
+
+        gridHtml += `
+          <div class="app-card">
+            ${faviconUrl 
+              ? `<img class="app-icon" src="${faviconUrl}" alt="${app.label}" onerror="this.outerHTML='<div class=&quot;app-icon&quot;>${getInitials(app.label)}</div>'" />` 
+              : `<div class="app-icon">${getInitials(app.label)}</div>`
+            }
+            <div class="app-details">
+              <div class="app-name">${app.label}</div>
+              <div class="app-badges">
+                <span class="badge-status ${badgeClass}">${badgeText}</span>
+              </div>
+            </div>
+            <a class="btn-pay" href="${escapeAttr(linkUrl)}" target="_blank" rel="noopener">Pay</a>
+          </div>
+        `;
+      });
+
+      // Update badge count
+      countEl.textContent = matchedCount;
+
+      // Update segment visibility
+      if (categoryVisible && matchedCount > 0) {
+        segmentEl.style.display = 'block';
+        gridEl.innerHTML = gridHtml;
+      } else {
+        segmentEl.style.display = 'none';
+      }
+    }
+
+    // Helper functions
+    window.copyUriToClipboard = function() {
+      if (!currentUri) {
+        alert('No payment URI generated yet!');
+        return;
+      }
+      navigator.clipboard.writeText(currentUri).then(() => {
+        alert('UPI payment URI copied to clipboard!');
+      }).catch(err => {
+        alert('Failed to copy to clipboard.');
+      });
+    };
+
+    function getInitials(label) {
+      return label.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    }
+
+    function escapeAttr(str) {
+      return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+  </script>
+</body>
+
+</html>
