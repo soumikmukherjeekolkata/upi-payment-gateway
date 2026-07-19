@@ -676,6 +676,211 @@
         padding: 0 16px;
       }
     }
+
+    /* ---- ADMIN VIEW STYLES ---- */
+    .admin-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin-bottom: 64px;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .metric-card {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .metric-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .metric-value {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .metric-sub {
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .admin-content-grid {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .card-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .card-title-row .card-title {
+      margin-bottom: 0;
+    }
+
+    .btn-clear-all {
+      background: transparent;
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-clear-all:hover {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .ledger-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .ledger-table th, 
+    .ledger-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ledger-table th {
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+    }
+
+    .ledger-table tr:hover td {
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    .badge-status-ledg {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+    }
+
+    .badge-status-ledg.pending {
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--info);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .badge-status-ledg.success {
+      background: var(--success-glow);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .badge-status-ledg.failed {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .action-btn-group {
+      display: flex;
+      gap: 6px;
+    }
+
+    .action-btn {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .action-btn:hover {
+      border-color: var(--border-hover);
+      color: var(--text);
+    }
+
+    .action-btn.success-hover:hover {
+      border-color: var(--success);
+      color: var(--success);
+      background: var(--success-glow);
+    }
+
+    .action-btn.danger-hover:hover {
+      border-color: var(--danger);
+      color: var(--danger);
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .toggle-admin-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .toggle-admin-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .toggle-admin-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+    }
+
+    @media (max-width: 900px) {
+      .admin-content-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+    }
   </style>
 </head>
 
@@ -688,9 +893,15 @@
         <div class="logo-icon">S</div>
         <span>Soumik's UPI App</span>
       </a>
-      <div class="nav-platform-pill" id="platformPill">
-        <span class="dot"></span>
-        <span id="platformText">Detecting Platform...</span>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="nav-platform-pill" id="platformPill">
+          <span class="dot"></span>
+          <span id="platformText">Detecting Platform...</span>
+        </div>
+        <button class="toggle-admin-btn" id="adminToggle" onclick="toggleAdminMode()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span>Admin View</span>
+        </button>
       </div>
     </div>
   </header>
@@ -817,6 +1028,101 @@
 
     </div>
 
+    <!-- ======== ADMIN DASHBOARD ======== -->
+    <div class="admin-grid" id="adminDashboard" style="display: none;">
+      
+      <!-- Metrics Row -->
+      <div class="metrics-row">
+        <div class="card metric-card">
+          <div class="metric-label">Total Revenue</div>
+          <div class="metric-value" id="metricTotalRevenue">₹0.00</div>
+          <div class="metric-sub text-success">From successful payments</div>
+        </div>
+        <div class="card metric-card">
+          <div class="metric-label">Success Rate</div>
+          <div class="metric-value" id="metricSuccessRate">0%</div>
+          <div class="metric-sub" id="metricSuccessRateSub">0 of 0 transactions</div>
+        </div>
+        <div class="card metric-card">
+          <div class="metric-label">Successful Payments</div>
+          <div class="metric-value text-success" id="metricSuccessCount">0</div>
+          <div class="metric-sub">Completed transactions</div>
+        </div>
+        <div class="card metric-card">
+          <div class="metric-label">Failed Payments</div>
+          <div class="metric-value text-danger" id="metricFailureCount">0</div>
+          <div class="metric-sub">Declined/Abandoned</div>
+        </div>
+      </div>
+
+      <!-- Transaction Ledger & Simulation -->
+      <div class="admin-content-grid">
+        
+        <!-- Table Card -->
+        <div class="card ledger-card">
+          <div class="card-title-row">
+            <div class="card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              <span>Transaction History Ledger</span>
+            </div>
+            <button class="btn-clear-all" onclick="clearTransactions()">Clear All</button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="ledger-table">
+              <thead>
+                <tr>
+                  <th>Reference ID</th>
+                  <th>Payee Name</th>
+                  <th>VPA Address</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Timestamp</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="ledgerTableBody">
+                <!-- Dynamic Rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Simulation Card -->
+        <div class="card sim-card">
+          <div class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--info);"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            <span>Mock Transaction Simulator</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Quickly generate simulated transactions to inspect dashboard behavior.</p>
+          
+          <div class="form-group">
+            <label for="simName">Payee Name</label>
+            <input type="text" id="simName" class="input-control" value="Soumik Mukherjee">
+          </div>
+          <div class="form-group">
+            <label for="simVPA">VPA Address</label>
+            <input type="text" id="simVPA" class="input-control" value="soumik.mukherjee@paytm">
+          </div>
+          <div class="form-group">
+            <label for="simAmount">Amount (INR)</label>
+            <input type="number" id="simAmount" class="input-control" value="250.00">
+          </div>
+          <div class="form-group">
+            <label for="simStatus">Initial Status</label>
+            <select id="simStatus" class="input-control" style="background-color: var(--bg);">
+              <option value="Pending">Pending</option>
+              <option value="Success">Success</option>
+              <option value="Failed">Failed</option>
+            </select>
+          </div>
+          <button class="btn-action" onclick="simulateTransaction()">Inject Transaction</button>
+        </div>
+
+      </div>
+
+    </div>
+
     <!-- ======== FAQ SECTION ======== -->
     <section class="faq-section">
       <h2 class="faq-title">Frequently Asked Questions</h2>
@@ -881,6 +1187,10 @@
     let searchQuery = '';
     let currentUri = '';
     const platform = detectPlatform();
+
+    // Admin state variables
+    let isAdminView = false;
+    let transactions = [];
 
     // Favicon domain mapping
     const APP_DOMAINS = {
@@ -958,8 +1268,209 @@
       const platformText = document.getElementById('platformText');
       platformText.textContent = platform.toUpperCase();
       
+      prepopulateTransactions();
       updatePlayground();
     });
+
+    // Prepopulate transactions if none exist
+    function prepopulateTransactions() {
+      const stored = localStorage.getItem('upi_txs');
+      if (stored) {
+        transactions = JSON.parse(stored);
+      } else {
+        transactions = [
+          {
+            id: 'TX-' + Math.floor(100000 + Math.random() * 900000),
+            name: 'Google Pay',
+            vpa: 'soumik.mukherjee@paytm',
+            amount: '250.00',
+            note: 'Playground test',
+            status: 'Success',
+            timestamp: new Date(Date.now() - 3600000 * 2).toLocaleString()
+          },
+          {
+            id: 'TX-' + Math.floor(100000 + Math.random() * 900000),
+            name: 'PhonePe',
+            vpa: 'soumik.mukherjee@paytm',
+            amount: '120.00',
+            note: 'Coffee buy',
+            status: 'Success',
+            timestamp: new Date(Date.now() - 3600000 * 5).toLocaleString()
+          },
+          {
+            id: 'TX-' + Math.floor(100000 + Math.random() * 900000),
+            name: 'Paytm',
+            vpa: 'soumik.mukherjee@paytm',
+            amount: '1500.00',
+            note: 'Rent partial',
+            status: 'Failed',
+            timestamp: new Date(Date.now() - 3600000 * 24).toLocaleString()
+          }
+        ];
+        saveTransactions();
+      }
+    }
+
+    function saveTransactions() {
+      localStorage.setItem('upi_txs', JSON.stringify(transactions));
+    }
+
+    // Toggle Admin Mode
+    window.toggleAdminMode = function() {
+      isAdminView = !isAdminView;
+      
+      const adminToggle = document.getElementById('adminToggle');
+      const playgroundGrid = document.querySelector('.playground-grid');
+      const adminDashboard = document.getElementById('adminDashboard');
+      const faqSection = document.querySelector('.faq-section');
+      const heroSection = document.querySelector('.hero-section');
+      
+      adminToggle.classList.toggle('active', isAdminView);
+      
+      if (isAdminView) {
+        playgroundGrid.style.display = 'none';
+        faqSection.style.display = 'none';
+        heroSection.style.display = 'none';
+        adminDashboard.style.display = 'flex';
+        renderAdminDashboard();
+      } else {
+        playgroundGrid.style.display = 'grid';
+        faqSection.style.display = 'block';
+        heroSection.style.display = 'block';
+        adminDashboard.style.display = 'none';
+        updatePlayground();
+      }
+    };
+
+    // Render Admin metrics & table
+    function renderAdminDashboard() {
+      let totalRevenue = 0;
+      let successCount = 0;
+      let failureCount = 0;
+      
+      transactions.forEach(tx => {
+        if (tx.status === 'Success') {
+          totalRevenue += parseFloat(tx.amount) || 0;
+          successCount++;
+        } else if (tx.status === 'Failed') {
+          failureCount++;
+        }
+      });
+      
+      const totalCount = transactions.length;
+      const successRate = totalCount > 0 ? Math.round((successCount / totalCount) * 100) : 0;
+      
+      document.getElementById('metricTotalRevenue').textContent = '₹' + totalRevenue.toFixed(2);
+      document.getElementById('metricSuccessRate').textContent = successRate + '%';
+      document.getElementById('metricSuccessRateSub').textContent = `${successCount} of ${totalCount} transactions`;
+      document.getElementById('metricSuccessCount').textContent = successCount;
+      document.getElementById('metricFailureCount').textContent = failureCount;
+      
+      const tableBody = document.getElementById('ledgerTableBody');
+      if (transactions.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--text-dim);padding:32px;">No transactions recorded. Try clicking 'Pay' on any app or injecting mock data!</td></tr>`;
+        return;
+      }
+      
+      let rows = '';
+      transactions.forEach(tx => {
+        const statusClass = tx.status.toLowerCase();
+        rows += `
+          <tr>
+            <td style="font-family:var(--font-mono);font-size:12px;color:var(--primary);">${tx.id}</td>
+            <td style="font-weight:600;">${escapeHtml(tx.name)}</td>
+            <td style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted);">${escapeHtml(tx.vpa)}</td>
+            <td style="font-weight:600;">₹${parseFloat(tx.amount).toFixed(2)}</td>
+            <td><span class="badge-status-ledg ${statusClass}">${tx.status}</span></td>
+            <td style="font-size:12px;color:var(--text-dim);">${tx.timestamp}</td>
+            <td>
+              <div class="action-btn-group">
+                <button class="action-btn success-hover" title="Mark Successful" onclick="updateTxStatus('${tx.id}', 'Success')">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+                <button class="action-btn danger-hover" title="Mark Failed" onclick="updateTxStatus('${tx.id}', 'Failed')">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+                <button class="action-btn danger-hover" title="Delete" onclick="deleteTx('${tx.id}')">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+      tableBody.innerHTML = rows;
+    }
+
+    // Update individual transaction status
+    window.updateTxStatus = function(txId, newStatus) {
+      const tx = transactions.find(t => t.id === txId);
+      if (tx) {
+        tx.status = newStatus;
+        saveTransactions();
+        renderAdminDashboard();
+      }
+    };
+
+    // Delete single transaction
+    window.deleteTx = function(txId) {
+      transactions = transactions.filter(t => t.id !== txId);
+      saveTransactions();
+      renderAdminDashboard();
+    };
+
+    // Clear all transaction logs
+    window.clearTransactions = function() {
+      if (confirm('Are you sure you want to delete all transaction logs?')) {
+        transactions = [];
+        saveTransactions();
+        renderAdminDashboard();
+      }
+    };
+
+    // Inject manual mock transaction
+    window.simulateTransaction = function() {
+      const name = document.getElementById('simName').value.trim();
+      const vpa = document.getElementById('simVPA').value.trim();
+      const amount = document.getElementById('simAmount').value.trim();
+      const status = document.getElementById('simStatus').value;
+      
+      if (!name || !vpa || !amount) {
+        alert('Please fill out all fields to simulate a transaction.');
+        return;
+      }
+      
+      const tx = {
+        id: 'TX-' + Math.floor(100000 + Math.random() * 900000),
+        name,
+        vpa,
+        amount,
+        note: 'Manual Simulation',
+        status,
+        timestamp: new Date().toLocaleString()
+      };
+      
+      transactions.unshift(tx);
+      saveTransactions();
+      renderAdminDashboard();
+      
+      alert('Mock transaction successfully injected into ledger!');
+    };
+
+    // Log payment attempts dynamically on app clicks
+    window.logPaymentAttempt = function(appName, vpa, amount, note) {
+      const tx = {
+        id: 'TX-' + Math.floor(100000 + Math.random() * 900000),
+        name: appName,
+        vpa: vpa,
+        amount: amount || '0.00',
+        note: note || 'Payment Attempt Link',
+        status: 'Pending',
+        timestamp: new Date().toLocaleString()
+      };
+      transactions.unshift(tx);
+      saveTransactions();
+    };
 
     // Toggle Pay/Mandate mode
     window.toggleAction = function(action) {
@@ -1056,6 +1567,10 @@
       // Check category tab filter
       const categoryVisible = (activeCategory === 'all' || activeCategory === categoryId);
 
+      const pa = paInput.value.trim();
+      const am = amInput.value.trim();
+      const tn = tnInput.value.trim();
+
       appIds.forEach(id => {
         const app = allApps.find(a => a.id === id);
         if (!app) return;
@@ -1094,7 +1609,7 @@
                 <span class="badge-status ${badgeClass}">${badgeText}</span>
               </div>
             </div>
-            <a class="btn-pay" href="${escapeAttr(linkUrl)}" target="_blank" rel="noopener">Pay</a>
+            <a class="btn-pay" href="${escapeAttr(linkUrl)}" target="_blank" rel="noopener" onclick="logPaymentAttempt('${escapeAttr(app.label)}', '${escapeAttr(pa)}', '${escapeAttr(am)}', '${escapeAttr(tn)}')">Pay</a>
           </div>
         `;
       });
@@ -1130,6 +1645,12 @@
 
     function escapeAttr(str) {
       return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
     }
   </script>
 </body>
