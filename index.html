@@ -184,30 +184,6 @@
       color: var(--text-muted);
     }
 
-    .npm-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 8px 16px;
-      border-radius: var(--radius-sm);
-      font-family: var(--font-mono);
-      font-size: 14px;
-      color: var(--primary);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .npm-badge:hover {
-      border-color: var(--primary);
-      background: rgba(139, 92, 246, 0.05);
-    }
-
-    .npm-badge svg {
-      color: var(--text-dim);
-    }
-
     /* ---- PLAYGROUND GRID ---- */
     .playground-grid {
       display: grid;
@@ -724,10 +700,6 @@
     <div class="hero-section">
       <h1 class="hero-title">Universal UPI Deep-Link Playground</h1>
       <p class="hero-subtitle">Framework-agnostic TypeScript engine. Generates secure, store-compliant deep-links (Android Intent &amp; iOS schemes) for all 38 Indian UPI payment applications.</p>
-      <div class="npm-badge" onclick="navigator.clipboard.writeText('npm install upi-intents'); alert('Command copied to clipboard!')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-terminal"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-        <span>npm install upi-intents</span>
-      </div>
     </div>
 
     <!-- ======== PLAYGROUND ======== -->
