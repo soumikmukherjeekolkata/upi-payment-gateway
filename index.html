@@ -725,7 +725,7 @@
 
     .admin-content-grid {
       display: grid;
-      grid-template-columns: 1fr 300px;
+      grid-template-columns: 1fr;
       gap: 28px;
       align-items: start;
     }
@@ -1087,38 +1087,6 @@
             </table>
           </div>
         </div>
-
-        <!-- Simulation Card -->
-        <div class="card sim-card">
-          <div class="card-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--info);"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-            <span>Mock Transaction Simulator</span>
-          </div>
-          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Quickly generate simulated transactions to inspect dashboard behavior.</p>
-          
-          <div class="form-group">
-            <label for="simName">Payee Name</label>
-            <input type="text" id="simName" class="input-control" value="Soumik Mukherjee">
-          </div>
-          <div class="form-group">
-            <label for="simVPA">VPA Address</label>
-            <input type="text" id="simVPA" class="input-control" value="soumik.mukherjee@paytm">
-          </div>
-          <div class="form-group">
-            <label for="simAmount">Amount (INR)</label>
-            <input type="number" id="simAmount" class="input-control" value="250.00">
-          </div>
-          <div class="form-group">
-            <label for="simStatus">Initial Status</label>
-            <select id="simStatus" class="input-control" style="background-color: var(--bg);">
-              <option value="Pending">Pending</option>
-              <option value="Success">Success</option>
-              <option value="Failed">Failed</option>
-            </select>
-          </div>
-          <button class="btn-action" onclick="simulateTransaction()">Inject Transaction</button>
-        </div>
-
       </div>
 
     </div>
@@ -1426,35 +1394,6 @@
         saveTransactions();
         renderAdminDashboard();
       }
-    };
-
-    // Inject manual mock transaction
-    window.simulateTransaction = function() {
-      const name = document.getElementById('simName').value.trim();
-      const vpa = document.getElementById('simVPA').value.trim();
-      const amount = document.getElementById('simAmount').value.trim();
-      const status = document.getElementById('simStatus').value;
-      
-      if (!name || !vpa || !amount) {
-        alert('Please fill out all fields to simulate a transaction.');
-        return;
-      }
-      
-      const tx = {
-        id: 'TX-' + Math.floor(100000 + Math.random() * 900000),
-        name,
-        vpa,
-        amount,
-        note: 'Manual Simulation',
-        status,
-        timestamp: new Date().toLocaleString()
-      };
-      
-      transactions.unshift(tx);
-      saveTransactions();
-      renderAdminDashboard();
-      
-      alert('Mock transaction successfully injected into ledger!');
     };
 
     // Log payment attempts dynamically on app clicks
